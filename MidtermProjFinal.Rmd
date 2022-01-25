@@ -1,0 +1,308 @@
+---
+title: "STAT 445 Midterm Project - Jason Brown"
+output: pdf_document
+---
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**This is my midterm project evaluating a dataset regarding wine quality and its various influential attributes..**  
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**  
+  
+This dataset, Wine-Quality, was retrieved from UCI Machine Learning Repository and collected 12 different attributes of a sample from thousands both red and white wine.  
+  
+I have reduced the required attributes to include only the most significant and influential factors considering the quality of the wine tested.  
+  
+The attributes of wine being accounted for are:  
+*quality,	fixed acidity,	alcohol,	citric acid,	residual sugar,	sulphates,	pH,	chlorides, and total sulfur dioxide.*  
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**Research Question**   
+**Considering the substantial amount of factors which influence the quality of red wine, rated by various sommeliers, which attribute holds the greatest influential affect on the quality of the wine?**
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**  
+  
+```{r code}
+library(readxl)
+library(ggplot2)
+library(dplyr)
+
+
+   
+library(readxl)
+RedWine <- read_excel("RedWine.xlsx", range = "A1:L1600")
+
+ReducedRedWineData <- read_excel("ReducedRedWineData.xlsx", range = "A1:J1600")
+```
+  
+  
+WhiteWine <- read_excel("WhiteWine.xlsx", range = "A1:L4899")
+Though the wine-quality dataset found on the UCI Machine Learning Repository presented the data of both red and white wines. This study will focus on the data associated with red wine only. This is because the dataset is more concentrated and only assesses 1600 different red wines compared to more than 4000 white wines. 
+
+
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**RedWine arrange by descending quality:**
+
+```{r filterdesc}
+descQual <- ReducedRedWineData %>%
+arrange(desc(quality))
+```
+
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**RedWine arrange by ascending quality:**
+
+```{r filterasc}
+ascQual <- ReducedRedWineData %>%
+  arrange(quality)
+```
+
+``` {r top means}
+topFifty <- descQual[1:50,]
+top50AvgQual <- mean(topFifty[, 1]$"quality", na.rm = TRUE)
+top50AvgAlc <- mean(topFifty[, 3]$alcohol, na.rm = TRUE)
+top50AvgAcid <- mean(topFifty[, 2]$"fixed acidity", na.rm = TRUE)
+top50AvgCitric <- mean(topFifty[, 4]$"citric acid", na.rm = TRUE)
+top50AvgSugar <- mean(topFifty[, 5]$"residual sugar", na.rm = TRUE)
+top50AvgSulphates <- mean(topFifty[, 6]$"sulphates", na.rm = TRUE)
+top50AvgPh <- mean(topFifty[, 7]$"pH", na.rm = TRUE)
+top50AvgChlorides <- mean(topFifty[, 8]$"chlorides", na.rm = TRUE)
+top50AvgSulferDioxide <- mean(topFifty[, 10]$"total sulfer dioxide", na.rm = TRUE)
+```
+ 
+
+<!--  **Attributes of the 50 highest rated red wines:**   -->
+
+<!-- Best 50 Mean Alcohol Content:  -->
+<!-- ```{r top50MeanAlc} -->
+<!-- avgAlc -->
+<!-- ``` -->
+
+<!-- Best 50 Mean Fixed Acidity: -->
+<!-- ```{r top50MeanAcid} -->
+<!-- avgAcid -->
+<!-- ``` -->
+
+<!-- Best 50 Mean Citric Acid: -->
+<!-- ```{r top50MeanCitric} -->
+<!-- avgCitric -->
+<!-- ``` -->
+
+<!-- Best 50 Mean Residual Sugar: -->
+<!-- ```{r top50MeanSugar} -->
+<!-- avgSugar -->
+<!-- ``` -->
+
+<!-- Best 50 Mean Sulphates: -->
+<!-- ```{r top50MeanSulphates} -->
+<!-- avgSulphates -->
+<!-- ``` -->
+
+<!-- Best 50 Mean pH: -->
+<!-- ```{r top50MeanPh} -->
+<!-- avgPh -->
+<!-- ``` -->
+
+<!-- Best 50 Mean Chlorides: -->
+<!-- ```{r top50MeanChlorides} -->
+<!-- avgChlorides -->
+<!-- ``` -->
+
+<!-- Best 50 Mean Sulpher Dioxide: -->
+<!-- ```{r top50MeanSulfDiox} -->
+<!-- avgSulferDioxide -->
+<!-- ``` -->
+
+  
+``` {r bottom means}
+bottomFifty <- ascQual[1:50,]
+bottom50AvgQual <- mean(bottomFifty[, 1]$"quality", na.rm = TRUE)
+bottom50AvgAlc <- mean(bottomFifty[, 3]$alcohol, na.rm = TRUE)
+bottom50AvgAcid <- mean(bottomFifty[, 2]$"fixed acidity", na.rm = TRUE)
+bottom50AvgCitric <- mean(bottomFifty[, 4]$"citric acid", na.rm = TRUE)
+bottom50AvgSugar <- mean(bottomFifty[, 5]$"residual sugar", na.rm = TRUE)
+bottom50AvgSulphates <- mean(bottomFifty[, 6]$"sulphates", na.rm = TRUE)
+bottom50AvgPh <- mean(bottomFifty[, 7]$"pH", na.rm = TRUE)
+bottom50AvgChlorides <- mean(bottomFifty[, 8]$"chlorides", na.rm = TRUE)
+bottom50AvgSulferDioxide <- mean(bottomFifty[, 10]$"total sulfur dioxide", na.rm = TRUE)
+```
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**Data frame with two vectors, mean values and attribute titles**  
+  
+  
+```{r meanDataframe} 
+AttributeTitles <- c("quality",	"fixed acidity",	"alcohol",	"citric acid",	"residual sugar",	"sulphates",	"pH",	"chlorides", "total sulfur dioxide")
+Top_50_Mean_Attributes <- c(top50AvgQual, top50AvgAcid, top50AvgAlc, top50AvgCitric, top50AvgSugar, top50AvgSulphates, top50AvgPh, top50AvgChlorides, top50AvgSulferDioxide)
+Bottom_50_Mean_Attributes <- c(bottom50AvgQual, bottom50AvgAcid, bottom50AvgAlc, bottom50AvgCitric, bottom50AvgSugar, bottom50AvgSulphates, bottom50AvgPh, bottom50AvgChlorides, bottom50AvgSulferDioxide)
+tableMeanAttributes <- data.frame(AttributeTitles, Top_50_Mean_Attributes, Bottom_50_Mean_Attributes)
+
+tableMeanAttributes
+```
+  
+  
+One important thing to note from inspecting this data frame containing the vectors of the mean values of the highest rated 50 rated wines and the lowest 50 rated wines is the differences of value found in the same attributes.  
+  
+Now, while *alcohol, fixed acidity, citric acid, and sulphates* differ in value when their quality also differs, I believe it is much more significant to notice a difference in scale, not just mere value. 
+
+For example, the average alcohol content for the best 50 wines was 11.176, while the average alcohol content for the worst 50 wines was 10.173.  
+It can be noted that these values do indeed differ, however, they only differ by less than a tenth of the total value.
+  
+This concept will be expanded on soon.
+  
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**Comparing Quality and Other Attributes**
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**Insignificant Attributes:**  
+  
+**After evaluating the below data plots representing the relationships between different attributes and their overall quality, few factors carry much significance.**  
+  
+  
+**The attributes which hold little influential significance seem to be **
+*pH, residual sugar, fixed acidity, total sulfer dioxide, and chlorides.*  
+  
+  
+**The reason they hold little significance in regards to the quality of red wine is that there exists wines within the dataset which vary drastically in these attribute values, however, remain the same quality ratings.**
+  
+  
+**In an effort to condense to report, the code to plot these relationships is below (not plotted): **  
+*Fixed_Acidity_Column <- ReducedRedWineData[[2]]*
+*ggplot(ReducedRedWineData, aes(x = Fixed_Acidity_Column, y = Quality_Column))* *+geom_point()*
+
+*Residual_Sugar_Column <- ReducedRedWineData[[5]]*
+*ggplot(ReducedRedWineData, aes(x = Residual_Sugar_Column, y = Quality_Column))* *+geom_point()*
+
+*PH_Column <- ReducedRedWineData[[7]]*
+*ggplot(ReducedRedWineData, aes(x = PH_Column, y = Quality_Column)) +geom_point()*
+
+*Chlorides_Column <- ReducedRedWineData[[8]]*
+*ggplot(ReducedRedWineData, aes(x = Chlorides_Column, y = Quality_Column)) +geom_point()*
+
+*Total_Sulfer_Dioxide_Column <- ReducedRedWineData[[10]]*
+*ggplot(ReducedRedWineData, aes(x = Total_Sulfer_Dioxide_Column, y = Quality_Column))* *+geom_point()*  
+  
+  
+**These plots showed that the variables,**
+*pH, residual sugar, fixed acidity, total sulfer dioxide, and chlorides, *
+**showed very little influential significance in the quality of wine. Their trends were either not visible or difficult to identidy and they were not always linear.**
+
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**  
+  
+**Significant Attributes:**  
+  
+**Alternatively, the attributes which hold great significance have proven to be **
+*alcohol content, citric acid, and sulphates.*  
+  
+**It is easy to see the trends related to linear regression when viewing the data plots with wine quality on the 'Y' axis and these attributes(alcohol content, citric acid, and sulphates) on the 'X' axis. **
+  
+  
+```{r alcohol}
+Quality_Column <- ReducedRedWineData[[1]]
+Alcohol_Column <- ReducedRedWineData[[3]]
+ggplot(ReducedRedWineData, aes(x = Alcohol_Column, y = Quality_Column)) +geom_point()
+
+```
+
+```{r citric acid}
+Citric_Acid_Column <- ReducedRedWineData[[4]]
+ggplot(ReducedRedWineData, aes(x = Citric_Acid_Column, y = Quality_Column)) +
+  geom_point()
+
+```
+  
+```{r sulphates}
+Sulphates_Column <- ReducedRedWineData[[6]]
+ggplot(ReducedRedWineData, aes(x = Sulphates_Column, y = Quality_Column)) +
+  geom_point()
+
+```
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**  
+
+  
+As visible in the plots depicting the relationship between quality, citric acid, alcohol content, and sulphates, these three attributes obviously hold trends relating to linear regression as the quality of the wine increases. 
+  
+Returning to the point made earlier, these plots can also show the significance of scale in relation to their trends.  
+  
+  
+**Significant Linear Regression Models:**  
+  
+  
+```{r linear regression}
+modCitric <- lm(Quality_Column ~ Citric_Acid_Column)
+modAlcohol <- lm(Quality_Column ~ Alcohol_Column)
+modSulphates <- lm(Quality_Column ~ Sulphates_Column)
+summary(modCitric)
+summary(modAlcohol)
+summary(modSulphates)
+```
+  
+  
+**Plotting the response variable, quality, versus the predictor variables, alcohol content, citric acid, and sulphates, the relationship seems to be linear. Although not every point is perfectly linear, including the outliers, the general trend can be demonstrated with a straight line through the points.**  
+  
+**Citric acid's significance was prominent in my decision to focus the research question on it as an attribute. The change in citric acid concentration when comparing the best and worst wines changes drastically in relation to how minuscule the measurement is. Citric Acid and Sulphate content have std. error values of >0.1 while alcohol content has a value of 0.01. Although these three attributes are significant and hold linear trends in correlation with the quality of the wine, this statistic makes alcohol content less important than citric acid and sulphates.**
+
+**Firstly, all predicting attributes are tightly condensed with very few outliers to skew data or contribute to the null hypothesis. The predicting variables are not strongly correlated with other predictors but there are still minor trends, even more so for the attributes which are significant at the 0.05 alpha level (alcohol, citric acid, and sulphate content).**
+
+**The removal of less significant attributes would have zero to very little effect on the values of other parameters. There is an insufficient relationship between the non-significant attributes and those which are influentially significant. And because of this, the P-values for the other parameters will not have been affected. For the three most significant attributes, they share the same P-Value of 2.2e-16.**  
+  
+**If a 95% confidence interval includes zero, or the null value, then the confidence interval is proven to hold no statistical significance.**  
+  
+**Interpreting R^2 at a high level, it cannot be used to determine estimate and prediction bias, meaning it does not always indicate whether a regression model fits the data well.**
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+
+  
+**Below is a plot chart depicting the relationship between quality and the combination of alcohol and citric acid content**
+  
+```{r color plot}
+ggplot(ReducedRedWineData, aes(x = Alcohol_Column, y = Quality_Column, color = Citric_Acid_Column)) +
+  geom_point()
+
+ggplot(ReducedRedWineData, aes(x = Sulphates_Column, y = Quality_Column, color = Citric_Acid_Column)) +
+  geom_point()
+```
+  
+  
+It can be noted that there are two trends in each of the point plots; there is the trend relating to the increase of alcohol or sulphates content as the quality of the wine increases and there is an lightening in color, depicting the citric acid, as the quality of the wine increases. This is further explored after the output of the data frame comparing attributes of the best 50 wines and the worst 50 wines. 
+  
+**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
+  
+**Below is a data frame showing the average attribute values between the best 50 wines and the worst 50 wines (only significant attributes)**  
+
+```{r significant averages}
+SignificantAttributeTitles <- c("quality",	"alcohol", "citric acid",	"sulphates")
+Top_50_Avg_Attributes <- c(top50AvgQual, top50AvgAlc, top50AvgCitric, top50AvgSulphates)
+Bottom_50_Avg_Attributes <- c(bottom50AvgQual, bottom50AvgAlc, bottom50AvgCitric, bottom50AvgSulphates)
+tableAvgAttributes <- data.frame(SignificantAttributeTitles, Top_50_Avg_Attributes, Bottom_50_Avg_Attributes)
+
+tableAvgAttributes
+```
+  
+Though alcohol shows a change of 1.003 (from 10.173 to 11.176), this is less than a tenth of the total alcohol content of the best 50 wines.  
+  
+*Although it is arguable that alcohol plays a very significant role in the quality of wine, I would argue that this fact alone disproves its upmost importance regarding quality.*  
+  
+Also, sulphate content within the best and worst wines differs from 0.1772 (from 0.6064 to 0.7836), their difference in values is only 22% of the average value of the best 50 wines.  
+  
+*This proves that although sulphates hold significance in the quality of wine within a linear regression standpoint, its change in value is too insufficient to be distinguished as the most important attribute in good wine.*
+  
+Finally, citric acid shows a change of 0.2048 (from 0.1836 to 0.3884). And while 0.2048 seems to be too arbitrarily small of a number, it is actually more than half of the average citric acid value of the best 50 wines (0.527). 
+  
+**This proves that citric acid holds the most significance in distinguishing a good wine versus a bad wine, according to this dataset. While a linear regression trend can easily be found in the plot depicting the relationship between quality and citric acid (the citric acid content increases along with the quality of the wine), it should be noted that the most important detail which makes citric acid influencial is the ratio of change from the worst wine to the best wine.**
+
+**It is easily visible that citric acid contents increase by more than double from the worst wine to the best wine and, thus, citric acid content is the most influentially significant attribute which contributes to highly rated wine.**  
+  
+  
+**------------------------------------------------------------------------------------------------------------------------**
+
+If given more time on this project, had I not fell ill to Covid-19, I would spend more time visualizing the linear regression model summaries. I would also spend lots of time trying to seemlessly visualize some way to represent confidence intervals in each of the data plots. This data was difficult to show comparisons from so I would try numerous combinations of different attributes to see if they would show a new trend or similarity that was not able to be shown before. 
