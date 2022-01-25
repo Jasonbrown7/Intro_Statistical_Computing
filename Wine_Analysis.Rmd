@@ -1,10 +1,10 @@
 ---
-title: "STAT 445 Midterm Project - Jason Brown"
+title: "STAT 445 Project 1- Jason Brown"
 output: pdf_document
 ---
 **- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**
   
-**This is my midterm project evaluating a dataset regarding wine quality and its various influential attributes..**  
+**This is my project evaluating a dataset regarding wine quality and its various influential attributes..**  
   
 **- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - -**  
   
